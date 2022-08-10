@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package elasticsearchexporter contains an opentelemetry-collector exporter
-// for Elasticsearch.
+// Package opensearchexporter contains an opentelemetry-collector exporter
+// for OpenSearch.
 package opensearchexporter // import "github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter"
 
 import (
@@ -170,7 +170,7 @@ func (e *opensearchExporter) pushEvent(ctx context.Context, document []byte) err
 }
 
 // clientLogger implements the estransport.Logger interface
-// that is required by the Elasticsearch client for logging.
+// that is required by the OpenSearch client for logging.
 type clientLogger zap.Logger
 
 // LogRoundTrip should not modify the request or response, except for consuming and closing the body.

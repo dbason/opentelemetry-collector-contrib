@@ -5,19 +5,17 @@ processors:
   nop:
 
 exporters:
-  elasticsearch:
-    endpoints: [https://elastic.example.com:9200]
-  elasticsearch/customname:
-    endpoints: [https://elastic.example.com:9200]
-    cloudid: TRNMxjXlNJEt
+  opensearch:
+    endpoints: [https://opensearch.example.com:9200]
+  opensearch/customname:
+    endpoints: [https://opensearch.example.com:9200]
     timeout: 2m
     headers:
       myheader: test
     index: myindex
     pipeline: mypipeline
-    user: elastic
+    user: user
     password: search
-    api_key: AvFsEiPs==
     discover:
       on_start: true
     flush:
@@ -30,4 +28,4 @@ service:
     logs:
       receivers: [nop]
       processors: [nop]
-      exporters: [elasticsearch]
+      exporters: [opensearch]

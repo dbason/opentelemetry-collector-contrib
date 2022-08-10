@@ -1,21 +1,17 @@
-# Elasticsearch Exporter
+# Opensearch Exporter
 
-This exporter supports sending OpenTelemetry logs to [Elasticsearch](https://www.elastic.co/elasticsearch).
+This exporter supports sending OpenTelemetry logs to [OpenSearch](https://opensearch.org/).
 
 ## Configuration options
 
-- `endpoints`: List of Elasticsearch URLs. If endpoints and cloudid is missing, the
-  ELASTICSEARCH_URL environment variable will be used.
-- `cloudid` (optional):
-  [ID](https://www.elastic.co/guide/en/cloud/current/ec-cloud-id.html) of the
-  Elastic Cloud Cluster to publish events to. The `cloudid` can be used instead
-  of `endpoints`.
+- `endpoints`: List of OpenSearch URLs. If endpoints is missing, the
+  OPENSEARCH_URL environment variable will be used.
 - `num_workers` (optional): Number of workers publishing bulk requests concurrently.
 - `index`: The
-  [index](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html)
-  or [datastream](https://www.elastic.co/guide/en/elasticsearch/reference/current/data-streams.html)
+  [index](https://opensearch.org/docs/latest/opensearch/rest-api/index-apis/index/)
+  or [datastream](https://opensearch.org/docs/latest/opensearch/data-streams/)
   name to publish events to. The default value is `logs-generic-default`.
-- `pipeline` (optional): Optional [Ingest Node](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest.html)
+- `pipeline` (optional): Optional [Ingest Node](https://opensearch.org/docs/latest/opensearch/rest-api/ingest-apis/get-ingest/)
   pipeline ID used for processing documents published by the exporter.
 - `flush`: Event bulk buffer flush settings
   - `bytes` (default=5242880): Write buffer flush limit.
@@ -36,8 +32,8 @@ This exporter supports sending OpenTelemetry logs to [Elasticsearch](https://www
   - `fields` (optional): Configure additional fields mappings.
   - `file` (optional): Read additional field mappings from the provided YAML file.
   - `dedup` (default=true): Try to find and remove duplicate fields/attributes
-    from events before publishing to Elasticsearch. Some structured logging
-    libraries can produce duplicate fields (for example zap). Elasticsearch
+    from events before publishing to OpenSearch. Some structured logging
+    libraries can produce duplicate fields (for example zap). OpenSearch
     will reject documents that have duplicate fields.
   - `dedot` (default=true): When enabled attributes with `.` will be split into
     proper json objects.
@@ -53,7 +49,6 @@ This exporter supports sending OpenTelemetry logs to [Elasticsearch](https://www
 
 - `user` (optional): Username used for HTTP Basic Authentication.
 - `password` (optional): Password used for HTTP Basic Authentication.
-- `api_key` (optional):  Authorization [API Key](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html).
 
 ### TLS settings
 - `ca_file` (optional): Root Certificate Authority (CA) certificate, for
@@ -65,20 +60,20 @@ This exporter supports sending OpenTelemetry logs to [Elasticsearch](https://www
 
 ### Node Discovery
 
-The Elasticsearch Exporter will check Elasticsearch regularly for available
+The OpenSearch Exporter will check OpenSearch regularly for available
 nodes and updates the list of hosts if discovery is enabled. Newly discovered
 nodes will automatically be used for load balancing.
 
 - `discover`:
-  - `on_start` (optional): If enabled the exporter queries Elasticsearch
+  - `on_start` (optional): If enabled the exporter queries OpenSearch
     for all known nodes in the cluster on startup.
-  - `interval` (optional): Interval to update the list of Elasticsearch nodes.
+  - `interval` (optional): Interval to update the list of OpenSearch nodes.
 
 ## Example
 
 ```yaml
 exporters:
-  elasticsearch:
+  opensearch:
     endpoints:
     - "https://localhost:9200"
 ```

@@ -62,7 +62,7 @@ func createDefaultConfig() config.Exporter {
 
 // createLogsExporter creates a new exporter for logs.
 //
-// Logs are directly indexed into Elasticsearch.
+// Logs are directly indexed into OpenSearch.
 func createLogsExporter(
 	ctx context.Context,
 	set component.ExporterCreateSettings,
@@ -70,7 +70,7 @@ func createLogsExporter(
 ) (component.LogsExporter, error) {
 	exporter, err := newExporter(set.Logger, cfg.(*Config))
 	if err != nil {
-		return nil, fmt.Errorf("cannot configure Elasticsearch logs exporter: %w", err)
+		return nil, fmt.Errorf("cannot configure OpenSearch logs exporter: %w", err)
 	}
 
 	return exporterhelper.NewLogsExporter(

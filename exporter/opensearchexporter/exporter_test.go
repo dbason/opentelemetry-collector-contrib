@@ -61,17 +61,11 @@ func TestExporter_New(t *testing.T) {
 		"create from default config with ELASTICSEARCH_URL environment variable": {
 			config: withDefaultConfig(),
 			want:   success,
-			env:    map[string]string{defaultElasticsearchEnvName: "localhost:9200"},
+			env:    map[string]string{defaultOpenSearchEnvName: "localhost:9200"},
 		},
 		"create from default with endpoints": {
 			config: withDefaultConfig(func(cfg *Config) {
 				cfg.Endpoints = []string{"test:9200"}
-			}),
-			want: success,
-		},
-		"create with cloudid": {
-			config: withDefaultConfig(func(cfg *Config) {
-				cfg.CloudID = "foo:YmFyLmNsb3VkLmVzLmlvJGFiYzEyMyRkZWY0NTY="
 			}),
 			want: success,
 		},
@@ -81,7 +75,7 @@ func TestExporter_New(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			env := test.env
 			if len(env) == 0 {
-				env = map[string]string{defaultElasticsearchEnvName: ""}
+				env = map[string]string{defaultOpenSearchEnvName: ""}
 			}
 
 			oldEnv := make(map[string]string, len(env))
