@@ -13,6 +13,7 @@ exporters:
     headers:
       myheader: test
     index: myindex
+    bulk_action: index
     pipeline: mypipeline
     user: user
     password: search

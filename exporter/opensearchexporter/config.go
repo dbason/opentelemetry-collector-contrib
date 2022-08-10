@@ -46,6 +46,13 @@ type Config struct {
 	// This setting is required.
 	Index string `mapstructure:"index"`
 
+	// BulkAction configures the action for ingesting data. Only `create` and `index` are allowed here.
+	//
+	// https://opensearch.org/docs/1.2/opensearch/rest-api/document-apis/bulk/#request-body
+	//
+	// If not specified, the default value `create` will be used.
+	BulkAction string `mapstructure:"bulk_action"`
+
 	// Pipeline configures the ingest node pipeline name that should be used to process the
 	// events.
 	//
@@ -157,9 +164,10 @@ const (
 )
 
 var (
-	errConfigNoEndpoint    = errors.New("endpoints must be specified")
-	errConfigEmptyEndpoint = errors.New("endpoints must not include empty entries")
-	errConfigNoIndex       = errors.New("index must be specified")
+	errConfigNoEndpoint        = errors.New("endpoints must be specified")
+	errConfigEmptyEndpoint     = errors.New("endpoints must not include empty entries")
+	errConfigNoIndex           = errors.New("index must be specified")
+	errConfigInvalidBulkAction = errors.New("bulk_action can either be `create` or `index`")
 )
 
 func (m MappingMode) String() string {
@@ -197,6 +205,14 @@ func (cfg *Config) Validate() error {
 		if os.Getenv(defaultOpenSearchEnvName) == "" {
 			return errConfigNoEndpoint
 		}
+	}
+
+	if len(cfg.BulkAction) == 0 {
+		cfg.BulkAction = "create"
+	}
+
+	if cfg.BulkAction != "create" && cfg.BulkAction != "index" {
+		return errConfigInvalidBulkAction
 	}
 
 	for _, endpoint := range cfg.Endpoints {

@@ -52,11 +52,10 @@ type opensearchExporter struct {
 	client      *osClientCurrent
 	bulkIndexer osBulkIndexerCurrent
 	model       mappingModel
+	bulkAction  string
 }
 
 var retryOnStatus = []int{500, 502, 503, 504, 429}
-
-const createAction = "create"
 
 func newExporter(logger *zap.Logger, cfg *Config) (*opensearchExporter, error) {
 	if err := cfg.Validate(); err != nil {
@@ -87,6 +86,7 @@ func newExporter(logger *zap.Logger, cfg *Config) (*opensearchExporter, error) {
 		bulkIndexer: bulkIndexer,
 
 		index:       cfg.Index,
+		bulkAction:  cfg.BulkAction,
 		maxAttempts: maxAttempts,
 		model:       model,
 	}, nil
@@ -132,7 +132,7 @@ func (e *opensearchExporter) pushLogRecord(ctx context.Context, resource pcommon
 func (e *opensearchExporter) pushEvent(ctx context.Context, document []byte) error {
 	attempts := 1
 	body := bytes.NewReader(document)
-	item := osBulkIndexerItem{Action: createAction, Index: e.index, Body: body}
+	item := osBulkIndexerItem{Action: e.bulkAction, Index: e.index, Body: body}
 
 	// Setup error handler. The handler handles the per item response status based on the
 	// selective ACKing in the bulk response.

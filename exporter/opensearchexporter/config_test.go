@@ -40,6 +40,7 @@ func TestLoadConfig(t *testing.T) {
 
 	defaultCfg := factory.CreateDefaultConfig()
 	defaultCfg.(*Config).Endpoints = []string{"https://opensearch.example.com:9200"}
+	defaultCfg.(*Config).BulkAction = "create"
 	r0 := cfg.Exporters[config.NewComponentID(typeStr)]
 	assert.Equal(t, r0, defaultCfg)
 
@@ -48,6 +49,7 @@ func TestLoadConfig(t *testing.T) {
 		ExporterSettings: config.NewExporterSettings(config.NewComponentIDWithName(typeStr, "customname")),
 		Endpoints:        []string{"https://opensearch.example.com:9200"},
 		Index:            "myindex",
+		BulkAction:       "index",
 		Pipeline:         "mypipeline",
 		HTTPClientSettings: HTTPClientSettings{
 			Authentication: AuthenticationSettings{

@@ -11,6 +11,7 @@ This exporter supports sending OpenTelemetry logs to [OpenSearch](https://opense
   [index](https://opensearch.org/docs/latest/opensearch/rest-api/index-apis/index/)
   or [datastream](https://opensearch.org/docs/latest/opensearch/data-streams/)
   name to publish events to. The default value is `logs-generic-default`.
+- `bulk_action` (optional): the [action](https://opensearch.org/docs/1.2/opensearch/rest-api/document-apis/bulk/#request-body) for ingesting data. Only `create` and `index` are allowed here. 
 - `pipeline` (optional): Optional [Ingest Node](https://opensearch.org/docs/latest/opensearch/rest-api/ingest-apis/get-ingest/)
   pipeline ID used for processing documents published by the exporter.
 - `flush`: Event bulk buffer flush settings
