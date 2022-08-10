@@ -26,7 +26,8 @@ import (
 
 const (
 	// The value of "type" key in configuration.
-	typeStr = "elasticsearch"
+	typeStr   = "opensearch"
+	stability = component.StabilityLevelBeta
 )
 
 // NewFactory creates a factory for Elastic exporter.
@@ -34,7 +35,7 @@ func NewFactory() component.ExporterFactory {
 	return component.NewExporterFactory(
 		typeStr,
 		createDefaultConfig,
-		component.WithLogsExporter(createLogsExporter),
+		component.WithLogsExporter(createLogsExporter, stability),
 	)
 }
 

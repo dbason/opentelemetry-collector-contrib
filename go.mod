@@ -770,6 +770,8 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/elast
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/zipkinexporter => ./exporter/zipkinexporter
 
+replace github.com/open-telemetry/opentelemetry-collector-contrib/exporter/opensearchexporter => ./exporter/opensearchexporter
+
 replace github.com/open-telemetry/opentelemetry-collector-contrib/extension/asapauthextension => ./extension/asapauthextension
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/extension/awsproxy => ./extension/awsproxy
