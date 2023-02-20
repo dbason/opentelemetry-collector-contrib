@@ -16,6 +16,7 @@ package opensearchexporter // import "github.com/open-telemetry/opentelemetry-co
 
 import (
 	"bytes"
+
 	"go.opentelemetry.io/collector/pdata/pcommon"
 	"go.opentelemetry.io/collector/pdata/plog"
 
@@ -40,8 +41,8 @@ type encodeModel struct {
 func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord) ([]byte, error) {
 	var document objmodel.Document
 	document.AddTimestamp("@timestamp", record.Timestamp()) // We use @timestamp in order to ensure that we can index if the default data stream logs template is used.
-	document.AddID("TraceId", record.TraceID())
-	document.AddID("SpanId", record.SpanID())
+	document.AddTraceID("TraceId", record.TraceID())
+	document.AddSpanID("SpanId", record.SpanID())
 	document.AddInt("TraceFlags", int64(record.Flags()))
 	document.AddString("SeverityText", record.SeverityText())
 	document.AddInt("SeverityNumber", int64(record.SeverityNumber()))

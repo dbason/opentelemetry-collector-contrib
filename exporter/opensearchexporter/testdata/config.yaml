@@ -1,32 +1,18 @@
-receivers:
-  nop:
-
-processors:
-  nop:
-
-exporters:
-  opensearch:
-    endpoints: [https://opensearch.example.com:9200]
-  opensearch/customname:
-    endpoints: [https://opensearch.example.com:9200]
-    timeout: 2m
-    headers:
-      myheader: test
-    index: myindex
-    bulk_action: index
-    pipeline: mypipeline
-    user: user
-    password: search
-    discover:
-      on_start: true
-    flush:
-      bytes: 10485760
-    retry:
-      max_requests: 5
-
-service:
-  pipelines:
-    logs:
-      receivers: [nop]
-      processors: [nop]
-      exporters: [opensearch]
+opensearch:
+  endpoints: [https://opensearch.example.com:9200]
+opensearch/customname:
+  endpoints: [https://opensearch.example.com:9200]
+  timeout: 2m
+  headers:
+    myheader: test
+  index: myindex
+  bulk_action: index
+  pipeline: mypipeline
+  user: user
+  password: search
+  discover:
+    on_start: true
+  flush:
+    bytes: 10485760
+  retry:
+    max_requests: 5

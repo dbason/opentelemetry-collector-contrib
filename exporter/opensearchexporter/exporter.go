@@ -21,15 +21,17 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"go.opentelemetry.io/collector/pdata/pcommon"
-	"go.opentelemetry.io/collector/pdata/plog"
 	"io"
 	"net/http"
 	"time"
 
+	"go.opentelemetry.io/collector/pdata/pcommon"
+	"go.opentelemetry.io/collector/pdata/plog"
+
 	"github.com/cenkalti/backoff/v4"
 	"github.com/opensearch-project/opensearch-go"
 	"github.com/opensearch-project/opensearch-go/opensearchutil"
+
 	//"go.opentelemetry.io/collector/model/pdata"
 	"go.uber.org/multierr"
 	"go.uber.org/zap"
@@ -124,7 +126,7 @@ func (e *opensearchExporter) pushLogsData(ctx context.Context, ld plog.Logs) err
 func (e *opensearchExporter) pushLogRecord(ctx context.Context, resource pcommon.Resource, record plog.LogRecord) error {
 	document, err := e.model.encodeLog(resource, record)
 	if err != nil {
-		return fmt.Errorf("Failed to encode log event: %w", err)
+		return fmt.Errorf("failed to encode log event: %w", err)
 	}
 	return e.pushEvent(ctx, document)
 }

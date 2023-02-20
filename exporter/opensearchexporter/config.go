@@ -21,13 +21,11 @@ import (
 	"strings"
 	"time"
 
-	"go.opentelemetry.io/collector/config"
 	"go.opentelemetry.io/collector/config/configtls"
 )
 
-// Config defines configuration for Elastic exporter.
+// Config defines configuration for Opensearch exporter.
 type Config struct {
-	config.ExporterSettings `mapstructure:",squash"`
 
 	// Endpoints holds the OpenSearch URLs the exporter should send events to.
 	//
@@ -101,7 +99,6 @@ type AuthenticationSettings struct {
 //
 // DiscoverySettings should not be enabled when operating OpenSearch behind a proxy
 // or load balancer.
-//
 type DiscoverySettings struct {
 	// OnStart, if set, instructs the exporter to look for available OpenSearch
 	// nodes the first time the exporter connects to the cluster.

@@ -21,64 +21,78 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.opentelemetry.io/collector/component/componenttest"
-	"go.opentelemetry.io/collector/config"
-	"go.opentelemetry.io/collector/service/servicetest"
+	"go.opentelemetry.io/collector/component"
+	"go.opentelemetry.io/collector/confmap/confmaptest"
 )
 
 func TestLoadConfig(t *testing.T) {
-	factories, err := componenttest.NopFactories()
+	cm, err := confmaptest.LoadConf(filepath.Join("testdata", "config.yaml"))
 	require.NoError(t, err)
+	require.NotNil(t, cm)
 
-	factory := NewFactory()
-	factories.Exporters[typeStr] = factory
-	cfg, err := servicetest.LoadConfigAndValidate(filepath.Join("testdata", "config.yaml"), factories)
-	require.NoError(t, err)
-	require.NotNil(t, cfg)
-
-	assert.Equal(t, len(cfg.Exporters), 2)
-
-	defaultCfg := factory.CreateDefaultConfig()
+	defaultCfg := createDefaultConfig()
 	defaultCfg.(*Config).Endpoints = []string{"https://opensearch.example.com:9200"}
 	defaultCfg.(*Config).BulkAction = "create"
-	r0 := cfg.Exporters[config.NewComponentID(typeStr)]
-	assert.Equal(t, r0, defaultCfg)
 
-	r1 := cfg.Exporters[config.NewComponentIDWithName(typeStr, "customname")].(*Config)
-	assert.Equal(t, r1, &Config{
-		ExporterSettings: config.NewExporterSettings(config.NewComponentIDWithName(typeStr, "customname")),
-		Endpoints:        []string{"https://opensearch.example.com:9200"},
-		Index:            "myindex",
-		BulkAction:       "index",
-		Pipeline:         "mypipeline",
-		HTTPClientSettings: HTTPClientSettings{
-			Authentication: AuthenticationSettings{
-				User:     "user",
-				Password: "search",
+	tests := []struct {
+		id       component.ID
+		expected component.Config
+	}{
+		{
+			id:       component.NewIDWithName(typeStr, ""),
+			expected: defaultCfg,
+		},
+		{
+			id: component.NewIDWithName(typeStr, "customname"),
+			expected: &Config{
+				Endpoints:  []string{"https://opensearch.example.com:9200"},
+				Index:      "myindex",
+				BulkAction: "index",
+				Pipeline:   "mypipeline",
+				HTTPClientSettings: HTTPClientSettings{
+					Authentication: AuthenticationSettings{
+						User:     "user",
+						Password: "search",
+					},
+					Timeout: 2 * time.Minute,
+					Headers: map[string]string{
+						"myheader": "test",
+					},
+				},
+				Discovery: DiscoverySettings{
+					OnStart: true,
+				},
+				Flush: FlushSettings{
+					Bytes: 10485760,
+				},
+				Retry: RetrySettings{
+					Enabled:         true,
+					MaxRequests:     5,
+					InitialInterval: 100 * time.Millisecond,
+					MaxInterval:     1 * time.Minute,
+				},
+				Mapping: MappingsSettings{
+					Mode:  "ecs",
+					Dedup: true,
+					Dedot: true,
+				},
 			},
-			Timeout: 2 * time.Minute,
-			Headers: map[string]string{
-				"myheader": "test",
-			},
 		},
-		Discovery: DiscoverySettings{
-			OnStart: true,
-		},
-		Flush: FlushSettings{
-			Bytes: 10485760,
-		},
-		Retry: RetrySettings{
-			Enabled:         true,
-			MaxRequests:     5,
-			InitialInterval: 100 * time.Millisecond,
-			MaxInterval:     1 * time.Minute,
-		},
-		Mapping: MappingsSettings{
-			Mode:  "ecs",
-			Dedup: true,
-			Dedot: true,
-		},
-	})
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.id.String(), func(t *testing.T) {
+			factory := NewFactory()
+			cfg := factory.CreateDefaultConfig()
+
+			sub, err := cm.Sub(tt.id.String())
+			require.NoError(t, err)
+			require.NoError(t, component.UnmarshalConfig(sub, cfg))
+
+			assert.NoError(t, component.ValidateConfig(cfg))
+			assert.Equal(t, tt.expected, cfg)
+		})
+	}
 }
 
 func withDefaultConfig(fns ...func(*Config)) *Config {

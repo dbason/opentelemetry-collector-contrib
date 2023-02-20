@@ -509,6 +509,7 @@ require (
 	github.com/opencontainers/selinux v1.10.1 // indirect
 	github.com/openlyinc/pointy v1.2.0 // indirect
 	github.com/openshift/api v3.9.0+incompatible // indirect
+	github.com/opensearch-project/opensearch-go v1.1.0 // indirect
 	github.com/openshift/client-go v0.0.0-20210521082421-73d9475a9142 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/openzipkin/zipkin-go v0.4.1 // indirect
