@@ -158,6 +158,7 @@ type MappingMode int
 const (
 	MappingNone MappingMode = iota
 	MappingECS
+	MappingFlattenAttributes
 )
 
 var (
@@ -173,6 +174,8 @@ func (m MappingMode) String() string {
 		return ""
 	case MappingECS:
 		return "ecs"
+	case MappingFlattenAttributes:
+		return "flatten_attributes"
 	default:
 		return ""
 	}
@@ -183,6 +186,7 @@ var mappingModes = func() map[string]MappingMode {
 	for _, m := range []MappingMode{
 		MappingNone,
 		MappingECS,
+		MappingFlattenAttributes,
 	} {
 		table[strings.ToLower(m.String())] = m
 	}

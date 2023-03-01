@@ -116,7 +116,9 @@ func DocumentFromAttributesWithPath(path string, am pcommon.Map) Document {
 
 	fields := make([]field, 0, am.Len())
 	fields = appendAttributeFields(fields, path, am)
-	return Document{fields}
+	return Document{
+		fields: fields,
+	}
 }
 
 // AddTimestamp adds a raw timestamp value to the Document.

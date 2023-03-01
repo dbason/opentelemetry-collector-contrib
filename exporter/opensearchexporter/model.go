@@ -34,12 +34,18 @@ type mappingModel interface {
 //
 // See: https://github.com/open-telemetry/oteps/blob/master/text/logs/0097-log-data-model.md
 type encodeModel struct {
-	dedup bool
-	dedot bool
+	dedup             bool
+	dedot             bool
+	flattenAttributes bool
 }
 
 func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord) ([]byte, error) {
 	var document objmodel.Document
+	if m.flattenAttributes {
+		document = objmodel.DocumentFromAttributes(resource.Attributes())
+	} else {
+		document.AddAttributes("Attributes", resource.Attributes())
+	}
 	document.AddTimestamp("@timestamp", record.Timestamp()) // We use @timestamp in order to ensure that we can index if the default data stream logs template is used.
 	document.AddTraceID("TraceId", record.TraceID())
 	document.AddSpanID("SpanId", record.SpanID())
@@ -47,8 +53,11 @@ func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord
 	document.AddString("SeverityText", record.SeverityText())
 	document.AddInt("SeverityNumber", int64(record.SeverityNumber()))
 	document.AddAttribute("Body", record.Body())
-	document.AddAttributes("Attributes", record.Attributes())
-	document.AddAttributes("Resource", resource.Attributes())
+	if m.flattenAttributes {
+		document.AddAttributes("", record.Attributes())
+	} else {
+		document.AddAttributes("Attributes", record.Attributes())
+	}
 
 	if m.dedup {
 		document.Dedup()
