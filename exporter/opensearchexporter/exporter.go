@@ -80,7 +80,12 @@ func newExporter(logger *zap.Logger, cfg *Config) (*opensearchExporter, error) {
 	}
 
 	// TODO: Apply encoding and field mapping settings.
-	model := &encodeModel{dedup: true, dedot: false, flattenAttributes: false}
+	model := &encodeModel{
+		dedup:             true,
+		dedot:             false,
+		flattenAttributes: false,
+		timestampField:    cfg.Mapping.TimestampField,
+	}
 	if cfg.Mapping.Mode == MappingFlattenAttributes.String() {
 		model.flattenAttributes = true
 	}

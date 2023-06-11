@@ -30,6 +30,7 @@ This exporter supports sending OpenTelemetry logs to [OpenSearch](https://opense
     - `ecs`: Try to map fields defined in the
              [OpenTelemetry Semantic Conventions](https://github.com/open-telemetry/opentelemetry-specification/tree/main/semantic_conventions)
              to [Elastic Common Schema (ECS)](https://www.elastic.co/guide/en/ecs/current/index.html).
+    - `flatten_attributes`: flatten all resource and log attributes in the record
   - `fields` (optional): Configure additional fields mappings.
   - `file` (optional): Read additional field mappings from the provided YAML file.
   - `dedup` (default=true): Try to find and remove duplicate fields/attributes
@@ -38,6 +39,7 @@ This exporter supports sending OpenTelemetry logs to [OpenSearch](https://opense
     will reject documents that have duplicate fields.
   - `dedot` (default=true): When enabled attributes with `.` will be split into
     proper json objects.
+  - `timestamp_field`: field in the document to store the timestamp in.  If not set `@timestamp` will be used
 
 ### HTTP settings
 

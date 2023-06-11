@@ -37,6 +37,7 @@ type encodeModel struct {
 	dedup             bool
 	dedot             bool
 	flattenAttributes bool
+	timestampField    string
 }
 
 func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord) ([]byte, error) {
@@ -46,7 +47,11 @@ func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord
 	} else {
 		document.AddAttributes("Attributes", resource.Attributes())
 	}
-	document.AddTimestamp("@timestamp", record.Timestamp()) // We use @timestamp in order to ensure that we can index if the default data stream logs template is used.
+	if m.timestampField != "" {
+		document.AddTimestamp(m.timestampField, record.Timestamp())
+	} else {
+		document.AddTimestamp("@timestamp", record.Timestamp()) // We use @timestamp in order to ensure that we can index if the default data stream logs template is used.
+	}
 	document.AddTraceID("TraceId", record.TraceID())
 	document.AddSpanID("SpanId", record.SpanID())
 	document.AddInt("TraceFlags", int64(record.Flags()))

@@ -146,6 +146,9 @@ type MappingsSettings struct {
 	// File to read additional fields mappings from.
 	File string `mapstructure:"file"`
 
+	// Field to store timestamp in.  If not set uses the default @timestamp
+	TimestampField string `mapstructure:"timestamp_field"`
+
 	// Try to find and remove duplicate fields
 	Dedup bool `mapstructure:"dedup"`
 
