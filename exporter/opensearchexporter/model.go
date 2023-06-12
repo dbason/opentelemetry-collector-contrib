@@ -38,6 +38,7 @@ type encodeModel struct {
 	dedot             bool
 	flattenAttributes bool
 	timestampField    string
+	unixTime          bool
 }
 
 func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord) ([]byte, error) {
@@ -47,10 +48,16 @@ func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord
 	} else {
 		document.AddAttributes("Attributes", resource.Attributes())
 	}
+	timestampField := "@timestamp"
+
 	if m.timestampField != "" {
-		document.AddTimestamp(m.timestampField, record.Timestamp())
+		timestampField = m.timestampField
+	}
+
+	if m.unixTime {
+		document.AddInt(timestampField, epochMilliTimestamp(record))
 	} else {
-		document.AddTimestamp("@timestamp", record.Timestamp()) // We use @timestamp in order to ensure that we can index if the default data stream logs template is used.
+		document.AddTimestamp(timestampField, record.Timestamp())
 	}
 	document.AddTraceID("TraceId", record.TraceID())
 	document.AddSpanID("SpanId", record.SpanID())
@@ -73,4 +80,8 @@ func (m *encodeModel) encodeLog(resource pcommon.Resource, record plog.LogRecord
 	var buf bytes.Buffer
 	err := document.Serialize(&buf, m.dedot)
 	return buf.Bytes(), err
+}
+
+func epochMilliTimestamp(record plog.LogRecord) int64 {
+	return record.Timestamp().AsTime().UnixMilli()
 }

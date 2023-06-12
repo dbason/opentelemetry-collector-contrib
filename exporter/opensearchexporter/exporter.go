@@ -85,6 +85,7 @@ func newExporter(logger *zap.Logger, cfg *Config) (*opensearchExporter, error) {
 		dedot:             false,
 		flattenAttributes: false,
 		timestampField:    cfg.Mapping.TimestampField,
+		unixTime:          cfg.Mapping.UnixTimestamp,
 	}
 	if cfg.Mapping.Mode == MappingFlattenAttributes.String() {
 		model.flattenAttributes = true

@@ -148,6 +148,8 @@ type MappingsSettings struct {
 
 	// Field to store timestamp in.  If not set uses the default @timestamp
 	TimestampField string `mapstructure:"timestamp_field"`
+	// Wheter to store timestamp in Epoch miliseconds
+	UnixTimestamp bool `mapstructure:"unix_timestamp"`
 
 	// Try to find and remove duplicate fields
 	Dedup bool `mapstructure:"dedup"`

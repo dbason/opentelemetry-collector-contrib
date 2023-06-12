@@ -40,6 +40,7 @@ This exporter supports sending OpenTelemetry logs to [OpenSearch](https://opense
   - `dedot` (default=true): When enabled attributes with `.` will be split into
     proper json objects.
   - `timestamp_field`: field in the document to store the timestamp in.  If not set `@timestamp` will be used
+  - `unix_timestamp`: whether to store the timestamp as a unix epoch (millisecond precision)
 
 ### HTTP settings
 
