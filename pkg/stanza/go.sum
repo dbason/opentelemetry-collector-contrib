@@ -19,8 +19,6 @@ github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGX
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dbason/opentelemetry-collector/confmap v0.0.0-20230628172507-5bbc6e5a4e8e h1:yGwRXORjBi1NzU96mmtFeNWInQjlXsg6HdjcGzAhOG8=
-github.com/dbason/opentelemetry-collector/confmap v0.0.0-20230628172507-5bbc6e5a4e8e/go.mod h1:iCTnTqGgZZJumhJxpY7rrJz9UQ/0zjPmsJz2Z7Tp4RY=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
@@ -129,6 +127,8 @@ go.opentelemetry.io/collector/config/configtelemetry v0.80.0 h1:IE/uyLy/roZAnj+j
 go.opentelemetry.io/collector/config/configtelemetry v0.80.0/go.mod h1:KEYQRiYJdx38iZkvcLKBZWH9fK4NeafxBwGRrRKMgyA=
 go.opentelemetry.io/collector/config/configtls v0.80.0 h1:0NwckEIIzXv2Zz+rLswHb37jsDmMnqo2O4/Fl/+2KFM=
 go.opentelemetry.io/collector/config/configtls v0.80.0/go.mod h1:fO1VgdtrcgcVA3Y2vB/YQvTh2tNNFW0R0NjWrtvjTOQ=
+go.opentelemetry.io/collector/confmap v0.80.1-0.20230629234129-50c94c941969 h1:kpNiFFSdOBbKQubR+VXYiTN3iy9ZXYv58UiLk/xVdxE=
+go.opentelemetry.io/collector/confmap v0.80.1-0.20230629234129-50c94c941969/go.mod h1:iCTnTqGgZZJumhJxpY7rrJz9UQ/0zjPmsJz2Z7Tp4RY=
 go.opentelemetry.io/collector/consumer v0.80.0 h1:IQfkrNvZ6/ZkfQs/d6JENgfYPE3g3NcVcy1eC8nku58=
 go.opentelemetry.io/collector/consumer v0.80.0/go.mod h1://MinWlTMlL44B8WvUzLnYWBKgxfgGE8grpxoUiL9aQ=
 go.opentelemetry.io/collector/exporter v0.80.0 h1:BjwrMGhlrJ6IyhOOkPruzycCk7dv6vuf+VORzsVtcLI=

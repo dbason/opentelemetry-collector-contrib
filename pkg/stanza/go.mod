@@ -17,7 +17,7 @@ require (
 	go.opentelemetry.io/collector v0.80.0
 	go.opentelemetry.io/collector/component v0.80.0
 	go.opentelemetry.io/collector/config/configtls v0.80.0
-	go.opentelemetry.io/collector/confmap v0.80.0
+	go.opentelemetry.io/collector/confmap v0.80.1-0.20230629234129-50c94c941969
 	go.opentelemetry.io/collector/consumer v0.80.0
 	go.opentelemetry.io/collector/extension v0.80.0
 	go.opentelemetry.io/collector/featuregate v1.0.0-rcv0013
@@ -80,5 +80,3 @@ retract (
 replace github.com/open-telemetry/opentelemetry-collector-contrib/pkg/pdatautil => ../pdatautil
 
 replace github.com/open-telemetry/opentelemetry-collector-contrib/pkg/pdatatest => ../pdatatest
-
-replace go.opentelemetry.io/collector/confmap => github.com/dbason/opentelemetry-collector/confmap v0.0.0-20230628172507-5bbc6e5a4e8e
